@@ -2,6 +2,7 @@ import fs from "fs";
 import axios from "axios";
 import path from "path";
 import inquirer from "inquirer";
+import * as dotenv from "dotenv"; dotenv.config();
 import {
 	createSticker,
 	sendSticker
@@ -62,13 +63,13 @@ async function run() {
 							await createSticker({
 								path: path.join(process.cwd(), "download.png"),
 								savePath: path.join(process.cwd(), "sticker.webp"),
-								author: answer.author,
-								packname: answer.packname
+								author: process.env.AUTHOR || answer.author,
+								packname: process.env.PACKNAME || answer.packname
 							});
 
 							console.log("Sticker Criado, enviando...");
 
-							await sendSticker(answer.number);
+							await sendSticker(process.env.TEL || answer.number);
 
 						});
 					});
@@ -78,13 +79,13 @@ async function run() {
 					await createSticker({
 						path: path.join(answer.file),
 						savePath: path.join(process.cwd(), "sticker.webp"),
-						author: answer.author,
-						packname: answer.packname
+						author: process.env.AUTHOR || answer.author,
+						packname: process.env.PACKNAME || answer.packname
 					});
 
 					console.log("Sticker Criado, enviando...");
 
-					await sendSticker(answer.number);
+					await sendSticker(process.env.TEL || answer.number);
 
 				}
 
